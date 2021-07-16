@@ -1,5 +1,9 @@
 import requests
 import re 
+import json
+from secrets import spotify_user_id, spotify_token
+
+from requests.api import request
 
 USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=20",
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
@@ -74,9 +78,33 @@ def get_playlist_songs(playlist_urls,songcount):
 
     return songs
 
+def create_playlist(songs):
+    request_body = json.dumps({
+        "name": "PlayList!",
+        "description": "All Compatible Spotify Songs",
+        "public" : True 
+
+    })
+
+    query = "https://api.spotify.com/v1/users/bmiller1550/playlists"
+
+    response = requests.post(
+        query,
+        data = request_body,
+        headers={
+            "Content-Type":"application/json",
+            "Authorization":"Bearer {}".format(spotify_token)
+
+        }
+    )
+    response_json = response.json()
+
+    #return playlist ID
+    return response_json["id"]
+
 
 def main():
-    songfreq = [{}, {},{}, {}]
+    songfreq = [{},{},{},{}]
     
 
     for i in range(len(USER_IDS)):
