@@ -4,20 +4,34 @@
         SpotifyCompatibilityApp
     </title>
     <head>
-
+        
     </head>
     <body>
 
         <h1>SpotifyCompatibilityApp</h1>
         <p>Welcome to the SpotifyCompatibilityApp! To get started, enter your username in the textbox below</p>
-        <script></script>
+        
 
-        <form action="/main.py">
-            <label for="fname">Username:</label>
-            <input type="text" id="fname" name="fname"><br><br>
-            <input type="button" value="Add Account">
-            <input type="submit" value="Submit">
+        <form id = "inputProfiles">
+            <p>
+                <label for="fname">Username:</label>
+                <input type="text" id="fname" name="fname"><br><br>
+            </p>
+            
         </form>
+        
+        <form id = "buttons">
+            <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes()">
+            <input type="submit" value="Submit">
+            
+        </form>
+
+        
+
+        <script src="index.js"></script>
+        
+        <!-- Keep script at the end so that everything else gets rendered before the script runs   -->
+        
 
     </body>
 </html>
