@@ -14,6 +14,8 @@ submitButton.onclick = function processData(){
 
         profiles.push(document.getElementById(textBoxIDs[i]).value);
     }
+
+    
 }
 
 addProfileButton.onclick = function addTextBoxes(){
