@@ -15,6 +15,8 @@ submitButton.onclick = function processData(){
         profiles.push(document.getElementById(textBoxIDs[i]).value);
     }
 
+    console.log(profiles)
+
     
 }
 

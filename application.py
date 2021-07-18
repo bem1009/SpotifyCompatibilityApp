@@ -10,4 +10,4 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    return "BOO YA"
+    return render_template("index.html")
