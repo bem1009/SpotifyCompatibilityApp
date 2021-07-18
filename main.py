@@ -125,11 +125,6 @@ def get_playlist_songs(playlist_urls,songcount):
     return songs
 
 
-
-
-    
-
-
 def main():
     songfreq = [{},{},{},{}]
     
