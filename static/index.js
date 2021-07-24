@@ -8,7 +8,14 @@ var textBoxIDs = ["fname1"];
 submitButton.onclick = function processData(){
 
     
-    
+    var content = document.getElementById('content')
+    var slowwarning = document.getElementById('slow_warning')
+    if (content.style.display !== 'none') {
+        content.style.display = 'none';
+        slowwarning.style.display = 'block';
+
+    }
+
     //console.log("Input is " + profile );
     var profiles = [];
     for (var i = 0; i < textBoxIDs.length; i++ ) {
@@ -18,10 +25,6 @@ submitButton.onclick = function processData(){
     }
 
     console.log(profiles);
-
-
-
-    
 }
 
 addProfileButton.onclick = function addTextBoxes(){

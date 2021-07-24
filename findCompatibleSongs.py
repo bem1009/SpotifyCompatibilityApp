@@ -9,7 +9,7 @@ USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
 
 Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-ACCESS_TOKEN = "BQDLfRkzV9g9CrgFabvOm9Iyx0x8P55ZGo1ufNsR7J81RklJeWna7MVdqmpElMOoVYD5DDWEQM1ga_4mTNoakCkHxf6Qh15s2zQMqst7LzHyGuKmLQSSLACZMlA7GTu4xRqlpozfz9ZKM2JAkod_TpPVKHWOWoYG7TSpquDH83T_hmWDdtUoC0tYcM2xbA3bbuSwk0KsvVBlfpGmThf_ZU8lGYA"
+ACCESS_TOKEN = "BQDkBonXvdj7u6ECBsa9_ZoDi3Tiua0PO9IezuO5GClDEztBi6_j5NDnDqtX1UKFP1eCXEtrVHfAlNF6eUR189cXaNi8VPiMsMLyCiOrYWpRSzfq8MrDiMggCulb4y_4J2fb7PdI69WA3jaFzWnwXLfhMM4fzeOJ2mSiDWHIU5-b_gDJyySdilsVPdrres5uM2Pfj0oKfPEW9Dgiq8fuOkVPDzw"
 
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
