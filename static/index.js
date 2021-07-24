@@ -6,6 +6,8 @@ var textBoxIDs = ["fname1"];
 
 
 submitButton.onclick = function processData(){
+
+    
     
     //console.log("Input is " + profile );
     var profiles = [];
@@ -15,7 +17,9 @@ submitButton.onclick = function processData(){
         profiles.push(document.getElementById(textBoxIDs[i]).value);
     }
 
-    console.log(profiles)
+    console.log(profiles);
+
+
 
     
 }
@@ -33,6 +37,7 @@ addProfileButton.onclick = function addTextBoxes(){
     element.type = "text";
     totalTextBoxes += 1;
     element.id = "fname" + totalTextBoxes;
+    element.name = "fname" + totalTextBoxes;
     textBoxIDs.push(element.id)
     //Create Labels
     var label = document.createElement("Label");

@@ -15,12 +15,16 @@ db = SQLAlchemy(app)
 def index():
     return render_template("index.html")
 
+@app.route("/callScript", methods=['POST'])
+def processPlaylists():
 
-
-def callScript():
     findCompatibleSongs.main()
 
-@app.route('/process')
+
+@app.route('/process', methods=["POST"])
 def processing():
-    #return render_template('processingPlaylists.html', subprocess_output=callScript() )
-    return render_template('processingPlaylists.html')
+    playlist_url = request.form
+    return playlist_url
+    
+    
+    #return render_template('processingPlaylists.html')

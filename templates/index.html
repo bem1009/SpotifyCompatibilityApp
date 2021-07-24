@@ -3,31 +3,40 @@
     <title>
         Spotify Compatibility App
     </title>
+    
     <head>
         
     </head>
     <body>
+        <div id="loading"></div>
+        <div id="content">
 
-        <h1>Spotify Compatibility App</h1>
-        <p>Welcome to the Spotify Compatibility App! To get started, enter your username in the textbox below</p>
+            <h1>Spotify Compatibility App</h1>
+            <p>Welcome to the Spotify Compatibility App! To get started, enter your username in the textbox below</p>
         
+            <form id = "buttons" action="{{ url_for('processing') }}" method="POST">
+                <section id = "inputProfiles">
+                    <p>
+                        <label for="fname">User-ID:</label>
+                        <input type="text" id="fname1" name="fname">
+                    </p>
 
-        <form id = "inputProfiles">
-            <p>
-                <label for="fname">User-ID:</label>
-                <input type="text" id="fname1" name="fname">
-            </p>
-        </form>
+                </section>
+                
+
+                <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes();">
+                <!-- Change the below input type from "button" to "submit" once done testing -->
+                
+                <input type="submit"  id="passDataToScript" value="Submit"  >
         
-        <form id = "buttons">
-            <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes()">
-            <!-- Change the below input type from "button" to "submit" once done testing -->
-            <input type="button" href="/mylink/" id="passDataToScript" value="Submit" >
+            </form>
 
-            
-        </form>
+
+        </div>
+        <div id="loading" style="display:none;"><img src="spinner.gif" alt="" />Loading!</div>
 
         <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
+        
         
         <!-- Keep script at the end so that everything else gets rendered before the script runs   -->
     </body>
