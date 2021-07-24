@@ -27,6 +27,7 @@ def processing():
         playlist_url = request.form
         profiles = []
         for value in playlist_url.values():
+            value = "https://api.spotify.com/v1/users/" + value + "/playlists?limit=20"
             profiles.append(value)
 
         findCompatibleSongs.main(profiles)
