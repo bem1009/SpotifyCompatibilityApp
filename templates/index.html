@@ -3,12 +3,11 @@
     <title>
         Spotify Compatibility App
     </title>
-    
-    <head>
         
-    </head>
+    <header>
+        
+    </header>
     <body>
-        <div id="loading"></div>
         <div id="content">
 
             <h1>Spotify Compatibility App</h1>
@@ -27,13 +26,12 @@
                 <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes();">
                 <!-- Change the below input type from "button" to "submit" once done testing -->
                 
-                <input type="submit"  id="passDataToScript" value="Submit"  >
+                <input type="submit"  id="passDataToScript" value="Submit" onclick="loading()" >
         
             </form>
 
 
         </div>
-        <div id="loading" style="display:none;"><img src="spinner.gif" alt="" />Loading!</div>
 
         <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
         
