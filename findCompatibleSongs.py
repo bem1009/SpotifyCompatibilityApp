@@ -9,7 +9,7 @@ USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
 
 Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-ACCESS_TOKEN = "BQA1qOOiiH02PFBhdXFogMjetU0lPbOiGbwNapGoVBHfWL4UpDJlmVfsdZc-bTvWzBGNAggYxLSdUJWr1tEjzSXtaxbiGYEFvqioCBZQrdUuaYnOvoFr-fxIdzMjc-8dNYjQqnBpnGmCyG6c71GDnDjGgcdiUew8x5TrPoalp92hd29aZlFD447axwptndjywt99xxYsGBtlxtYWWBL7HEyeLLc"
+ACCESS_TOKEN = "BQCigOJ-C2NLdgGl3iiTrGTrE8v8CSxsmgvoTOHDOqXe9my1fLd8NFDhBHlIgyZGI7QXBmqDrl6rIWn7DfxN_w-hvChWMzuitID3oAyLFG4pw5NMx7SAvge-o1qp0-HRIqJ7oqcBT7JQ14OI-h_MDenHJq_IjFGNyqUIykMIIF_ppZFAGPZLA9NXWqXC3MuQ7gMZDvfGU9c0ouUoZgKBs7LKMM0"
 
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
@@ -120,45 +120,49 @@ def get_playlist_songs(playlist_urls,songcount):
 
     return songs
 
+songfreq = [{},{},{},{}]
+def retrieveUserSongs(USER_PROFILE,num):
+    playlists = get_user_playlists(USER_PROFILE)
 
-def main(USER_PROFILES):
-    songfreq = [{},{},{},{}]
+    items = playlists["items"]
+    playlist_urls = []
+    songcount = []
+    name = []
     
-
-    for i in range(len(USER_PROFILES)):
-        playlists = get_user_playlists(USER_PROFILES[i])
-
+    for j in range(len(items)):
         
-    
-        items = playlists["items"]
-        playlist_urls = []
-        songcount = []
-        name = []
-    
-        for j in range(len(items)):
+        totalsongs = items[j]["tracks"]["total"]
+
+        url = items[j]["href"]
+        url += '/tracks?limit=30&offset=0'
         
-            totalsongs = items[j]["tracks"]["total"]
+        playlist_urls.append(url)
+        name.append(items[j]["name"])
+        songcount.append(items[j]["tracks"]["total"])
 
-            url = items[j]["href"]
-            url += '/tracks?limit=30&offset=0'
-        
-            playlist_urls.append(url)
-            name.append(items[j]["name"])
-            songcount.append(items[j]["tracks"]["total"])
+    songs = []
 
-        songs = []
-
-        for j in range(len(playlist_urls)):
-            songs += get_playlist_songs(playlist_urls[j],songcount[j])
+    for j in range(len(playlist_urls)):
+        songs += get_playlist_songs(playlist_urls[j],songcount[j])
             
                 
-        for j in range(len(songs)):
-            if songs[j] not in songfreq[i]:
-                songfreq[i][songs[j]] = 1
+    for j in range(len(songs)):
+        if songs[j] not in songfreq[num]:
+            songfreq[num][songs[j]] = 1
             
-        print(len(songs))
+    print(len(songs))
+
+def retrieveAllSongs(USER_PROFILES):
+
+    for i in range(len(USER_PROFILES)):
+        retrieveUserSongs(USER_PROFILES[i],i)
+    return songfreq
+
+
+def main(USER_PROFILES):
     
     
+    songfreq = retrieveAllSongs(USER_PROFILES)
     crossedSongs = []
     for key in songfreq[0]:
         if key in songfreq[1] or key in songfreq[2] or key in songfreq[3]:
@@ -172,6 +176,8 @@ def main(USER_PROFILES):
         for i in range(len(crossedSongs)):
             uris = get_spotify_uri(crossedSongs[i][0], crossedSongs[i][1]) 
             add_song_to_playlist(playlist_identifier,uris)
+
+    return len(crossedSongs)
         
     
 

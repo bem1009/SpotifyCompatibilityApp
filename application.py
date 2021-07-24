@@ -30,6 +30,8 @@ def processing():
             value = "https://api.spotify.com/v1/users/" + value + "/playlists?limit=20"
             profiles.append(value)
 
-        findCompatibleSongs.main(profiles)
+        matchedSongs = findCompatibleSongs.main(profiles)
+
+        print(matchedSongs)
 
     return render_template('results.html')
