@@ -9,7 +9,7 @@ USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
 
 Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-ACCESS_TOKEN = "BQDoh8qv_HZg7pAy4UkrseUtCWoy_lVG1S62S6ed068rJW0yAJmcfziKF1yWHjJVKXNs1IJJOlOt4b4Emzeswdb_nNDxLFfQBABQ_Opm3CshvgwjnURug_Z7FYITsmLhaodOsmOh83QAybxefdf_Cq1zpiz-JdMfAW53YXtL4kFccEWiyEeyQFbCYdTMXqKnINAtmDOXMectYqHQOZBl35qgI88"
+ACCESS_TOKEN = "BQCnM6k-ixxZhgoB6jP0PDLKi4SNrL8Cv9yJs6W_CsM5Ee1T8bzY9yn7bPxnLBroutCnLOtj-1ygRZCGx1RlmrOiRazX2jQWoFk-EW9nj2RSC1MP6TKa9Zp-YAD945Cal9XeFdLdoLskvUCADDLWeIfxO-zHHi7W97DazcgAvYCvEMfNAU3Aa0vSk6_2UCn-GH31Rx7sVh1X0ugtD6KsAFieNk0"
 
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
@@ -125,12 +125,12 @@ def get_playlist_songs(playlist_urls,songcount):
     return songs
 
 
-def main():
+def main(USER_PROFILES):
     songfreq = [{},{},{},{}]
     
 
-    for i in range(len(USER_IDS)):
-        playlists = get_user_playlists(USER_IDS[i])
+    for i in range(len(USER_PROFILES)):
+        playlists = get_user_playlists(USER_PROFILES[i])
 
         
     

@@ -21,10 +21,14 @@ def processPlaylists():
     findCompatibleSongs.main()
 
 
-@app.route('/process', methods=["POST"])
+@app.route('/process', methods=["POST","GET"])
 def processing():
-    playlist_url = request.form
-    return playlist_url
-    
-    
-    #return render_template('processingPlaylists.html')
+    if request.method == "POST":
+        playlist_url = request.form
+        profiles = []
+        for value in playlist_url.values():
+            profiles.append(value)
+
+        findCompatibleSongs.main(profiles)
+
+    return render_template('processingPlaylists.html')
