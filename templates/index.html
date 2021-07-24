@@ -9,7 +9,8 @@
     </header>
     <body>
         <div id="content">
-
+            
+            
             <h1>Spotify Compatibility App</h1>
             <p>Welcome to the Spotify Compatibility App! To get started, enter your username in the textbox below</p>
         
@@ -31,13 +32,18 @@
             </form>
 
         </div>
-
+        
         <div id="slow_warning" style="display:none">
-            Loading...
+            <p>
+                <span id = "loadText" style="font-family:Arial">Please wait while your playlist is being generated. This may take a minute...</span>
+            </p>
+            <img src="../static/styles/spinner.gif"  /> 
         </div>
-        <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
+        
         
         <!-- Keep script at the end so that everything else gets rendered before the script runs   -->
     </body>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/loadingPage.css') }}">
     
 </html>
