@@ -108,15 +108,11 @@ def get_playlist_songs(playlist_urls,songcount):
             break
         json_resp = response.json()
         items = json_resp["items"]
-        #print(len(items))
+        
         
         for item in items:
-            #print(item)
-            #print(item["track"]["artists"][0]["name"])
             songs.append( (item["track"]["artists"][0]["name"], item["track"]["name"]) )
-            #print(item["track"]["name"])
             
-        
         offset += 30
         
         playlist_urls = re.sub(r'offset=\d+', 'offset=' + str(offset), playlist_urls)
@@ -149,32 +145,17 @@ def main(USER_PROFILES):
             playlist_urls.append(url)
             name.append(items[j]["name"])
             songcount.append(items[j]["tracks"]["total"])
-    
-    
-    
-        #print(songcount)
-        
-        #print(playlist_urls[0])
-
 
         songs = []
 
         for j in range(len(playlist_urls)):
-            #print(playlist_urls[2])
-            #print(name[j])
             songs += get_playlist_songs(playlist_urls[j],songcount[j])
             
                 
-
-        #print(songs)
         for j in range(len(songs)):
             if songs[j] not in songfreq[i]:
-                #print(songs[j])
                 songfreq[i][songs[j]] = 1
             
-        
-        
-        
         print(len(songs))
     
     
@@ -184,12 +165,6 @@ def main(USER_PROFILES):
             crossedSongs.append(key)
 
 
-    for song in crossedSongs:
-        
-        print(song)
-
-    print(len(crossedSongs))
-
     #find all the URIs for all the cross-referenced songs you found 
     if len(crossedSongs) != 0:
         uris = []
@@ -198,8 +173,6 @@ def main(USER_PROFILES):
             uris = get_spotify_uri(crossedSongs[i][0], crossedSongs[i][1]) 
             add_song_to_playlist(playlist_identifier,uris)
         
-    
-    #print(playlist_identifier)
     
 
 if __name__ == '__main__':
