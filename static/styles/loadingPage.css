@@ -1,0 +1,28 @@
+/* div#content { 
+    display: none;
+    }
+
+div#loading {
+    top: 200 px;
+    margin: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background: url(200w.gif) no-repeat;
+    cursor: wait;
+    }
+*/
+
+head{
+    color:blue;
+    background-color:blue;
+}
+
+body{
+    color:green;
+    background-color: blue;
+    
+
+}
+
