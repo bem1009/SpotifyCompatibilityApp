@@ -4,92 +4,17 @@ var submitButton = document.getElementById("passDataToScript");
 
 var textBoxIDs = ["fname1"];
 
-var clientID = "54b18b9335cf4489bbd682de84967d7f"
-
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 
 var redirect_uri = "http://127.0.0.1:5000/"
 
-clientSecret = "d59f90b740604e9dbaf02b8e39e49ecf"
+var authButton = document.getElementById('Authorization')
 
-
-function requestAuthorization () {
-    localStorage.setItem("client_id", clientID);
-    
-    let url = AUTHORIZE;
-
-    url += "?client_id=" + clientID;
-    url += "&response_type=code";
-    url += "&redirect_uri=" + encodeURI(redirect_uri);
-    url += "&show_dialog=true";
-    url += "&scope=playlist-modify-public"
-
-    window.location.href = url;
-
-    print(url)
+authButton.onclick = function requestAccess(){
+    var currentLocation = window.location;
+    location.href = currentLocation + "/reqAccess"
 
 }
-
-
-function onPageLoad() {
-    // if window has query params on it
-    if (window.location.search.length > 0) {
-        handleRedirect();
-
-    }
-    
-    
-}
-
-
-function handleRedirect() {
-    let code = getCode();
-
-}
-
-// find code param in the redirect url
-function getCode() {
-    let code = null;
-    const queryString = window.location.search;
-    if (queryString.length > 0){
-        const urlParams = new URLSearchParams(queryString);
-        code = urlParams.get('code')
-
-    }
-
-    return code;
-}
-
-function fetchAccessToken(code){
-    let body = "grant_type=authorization_code";
-    body += "&code=" + code;
-    body += "&redirect_uri=" + encodeURI(redirect_uri);
-    body += "&client_id=" + clientID;
-    body += "&client_secret=" + clientSecret;
-    callAuthorizationApi(body);
-
-}
-
-
-// handle this in python later to keep things cleaner?
-function callAuthorizationApi(body){
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST",TOKEN,true)
-    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded')
-    xhr.setRequestHeader("Authorization", "Basic" + btoa(client_id + ":" + clientSecret));
-    xhr.send(body);
-    xhr.onload = handleAuthorizationResponse;
-
-}
-
-
-// need to also add authorization response 
-
-
-
-
-
-
 
 
 submitButton.onclick = function processData(){
@@ -108,7 +33,8 @@ addProfileButton.onclick = function addTextBoxes(){
     if (totalTextBoxes == 4) {
         return
     }
-
+    access_token = localStorage.getItem("access_token");
+    console.log(access_token)
     var ptag = document.createElement("p");
     // Create an input type dynamically
     var element = document.createElement("input");

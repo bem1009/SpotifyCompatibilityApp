@@ -2,6 +2,7 @@ import requests
 import re 
 import json
 import urllib
+import application
 
 from requests.api import request
 
@@ -9,12 +10,14 @@ USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
 
 Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-ACCESS_TOKEN = "BQAkASC8p-1g8TfLz6R5M73UhNx4f9hV-8B_qQTh8Lb0GXcl1Soc_g___4cav6W-aMWZzHhOkm3bSP-Ux_aUSaFfGh2ZeQYktIUnlBlEkzvalvWsE6F9Y72_crGCRAfIEbNR22VjUZ-PnE8_7mk5MS2UXAhAFgvNb7gCczQxJTYhm9CYydE85856lwpUeseKPfXuLChzpwo347g1wRmb16dYjqo"
+#ACCESS_TOKEN = "BQAkASC8p-1g8TfLz6R5M73UhNx4f9hV-8B_qQTh8Lb0GXcl1Soc_g___4cav6W-aMWZzHhOkm3bSP-Ux_aUSaFfGh2ZeQYktIUnlBlEkzvalvWsE6F9Y72_crGCRAfIEbNR22VjUZ-PnE8_7mk5MS2UXAhAFgvNb7gCczQxJTYhm9CYydE85856lwpUeseKPfXuLChzpwo347g1wRmb16dYjqo"
 
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
 
 def create_playlist_on_spotify(name, public,USER_PROFILE):
+    token_info = application.getToken()
+    ACCESS_TOKEN = token_info['access_token']
     response = requests.post(
         Profile,
         headers={
@@ -36,6 +39,9 @@ def get_spotify_uri(artist,song):
     query = urllib.parse.quote(f"{artist} {song}")
     url = f"https://api.spotify.com/v1/search?q={query}&type=track"
 
+    token_info = application.getToken()
+    ACCESS_TOKEN = token_info['access_token']
+
     response = requests.get(
         url,
         headers = {
@@ -55,7 +61,8 @@ def get_spotify_uri(artist,song):
 
 
 def add_song_to_playlist(playlist_id, song_uri):
-
+    token_info = application.getToken()
+    ACCESS_TOKEN = token_info['access_token']
     query = urllib.parse.quote(f"spotify:track:{song_uri}")
     url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks?uris={query}"
 
@@ -76,6 +83,8 @@ def add_song_to_playlist(playlist_id, song_uri):
 
 
 def get_user_playlists(USER_ID):
+    token_info = application.getToken()
+    ACCESS_TOKEN = token_info['access_token']
     response = requests.get(
         USER_ID,
         headers={
@@ -96,6 +105,8 @@ def get_playlist_songs(playlist_urls,songcount):
     remainder = songcount % 30
     offset = 0
     songs = []
+    token_info = application.getToken()
+    ACCESS_TOKEN = token_info['access_token']
     for i in range(iterations):
         response = requests.get(
             playlist_urls,
