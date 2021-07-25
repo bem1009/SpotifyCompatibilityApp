@@ -9,12 +9,12 @@ USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "
             "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
 
 Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-ACCESS_TOKEN = "BQCigOJ-C2NLdgGl3iiTrGTrE8v8CSxsmgvoTOHDOqXe9my1fLd8NFDhBHlIgyZGI7QXBmqDrl6rIWn7DfxN_w-hvChWMzuitID3oAyLFG4pw5NMx7SAvge-o1qp0-HRIqJ7oqcBT7JQ14OI-h_MDenHJq_IjFGNyqUIykMIIF_ppZFAGPZLA9NXWqXC3MuQ7gMZDvfGU9c0ouUoZgKBs7LKMM0"
+ACCESS_TOKEN = "BQAkASC8p-1g8TfLz6R5M73UhNx4f9hV-8B_qQTh8Lb0GXcl1Soc_g___4cav6W-aMWZzHhOkm3bSP-Ux_aUSaFfGh2ZeQYktIUnlBlEkzvalvWsE6F9Y72_crGCRAfIEbNR22VjUZ-PnE8_7mk5MS2UXAhAFgvNb7gCczQxJTYhm9CYydE85856lwpUeseKPfXuLChzpwo347g1wRmb16dYjqo"
 
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
 
-def create_playlist_on_spotify(name, public):
+def create_playlist_on_spotify(name, public,USER_PROFILE):
     response = requests.post(
         Profile,
         headers={
@@ -172,7 +172,7 @@ def main(USER_PROFILES):
     #find all the URIs for all the cross-referenced songs you found 
     if len(crossedSongs) != 0:
         uris = []
-        playlist_identifier = create_playlist_on_spotify("New Playlist!",False)
+        playlist_identifier = create_playlist_on_spotify("New Playlist!",False,USER_PROFILES[0])
         for i in range(len(crossedSongs)):
             uris = get_spotify_uri(crossedSongs[i][0], crossedSongs[i][1]) 
             add_song_to_playlist(playlist_identifier,uris)

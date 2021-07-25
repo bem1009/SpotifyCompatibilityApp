@@ -8,7 +8,7 @@
         
     </header>
     <body>
-        <div id="content">
+        <div id="content" onload="onPageLoad()">
             
             
             <h1>Spotify Compatibility App</h1>
@@ -19,6 +19,7 @@
                     <p>
                         <label for="fname">User-ID:</label>
                         <input type="text" id="fname1" name="fname">
+                        <input type="button" id="Authorization" value="Request Authorization" onclick="requestAuthorization()">
                     </p>
 
                 </section>
