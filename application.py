@@ -16,7 +16,7 @@ import sys,os
 
 #get the secretClientID from a local path
 import keys
-
+clientSecret = keys.main()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -44,9 +44,6 @@ def index():
         print("User not logged in")
 
     sp = spotipy.Spotify(auth=token_info['access_token'])
-
-    #return sp.current_user_saved_tracks(limit=50,offset=0)
-    #print(sp.current_user_playlists(limit=50,offset=0))
 
     return render_template("index.html")
 
