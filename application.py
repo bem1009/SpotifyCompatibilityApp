@@ -1,18 +1,11 @@
-from enum import auto
-from re import template
-import urllib
 from flask import Flask, request, render_template, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import findCompatibleSongs
-import sys
-import base64
-from urllib.parse import urlencode, quote_plus
 from secrets import *
 import spotipy
 from spotipy import oauth2
 import time
-import sys,os
 
 #get the secretClientID from a local path
 import keys
