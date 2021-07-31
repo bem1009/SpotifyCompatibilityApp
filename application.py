@@ -93,7 +93,6 @@ def authorize():
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
     session[TOKEN_INFO] = token_info
-    print(url_for('index'))
     return redirect(url_for('index', _external=True))   
 
 @app.route("/errorHandler")
@@ -131,10 +130,6 @@ def processing():
             else:
                 value = "https://api.spotify.com/v1/users/" + value + "/playlists?limit=20"
                 profiles.append(value)
-                print(value)
-                print(key)
-
-        print(profiles)
 
         successOrFail = findCompatibleSongs.main(profiles,playlist_name)
         if successOrFail != "SUCCESS":
@@ -147,11 +142,7 @@ def processing():
             if successOrFail.endswith(suffix):
                 successOrFail = successOrFail[:-len(suffix)]
             
-            
-            print(successOrFail)
             return render_template("wrongProfile.html", errorProfile = successOrFail)
-
-        #print(matchedSongs)
 
     return render_template('results.html')
 
