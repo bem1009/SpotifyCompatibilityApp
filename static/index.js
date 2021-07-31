@@ -1,3 +1,13 @@
+/* 
+ 
+ File Name: index.js
+ Author: Benjamin Miller
+ 
+ This file is used to process button input from the user and 
+ pass them off into application.py 
+
+*/  
+
 var addProfileButton = document.getElementById("addProfiles");
 var totalTextBoxes = 1;
 var submitButton = document.getElementById("passDataToScript");

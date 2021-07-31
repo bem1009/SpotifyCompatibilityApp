@@ -1,3 +1,12 @@
+# =============================================
+# File Name: findCompatibleSongs.py
+# Author: Benjamin Miller
+# 
+# Used to interact with the spotify API and retrieve
+# user playlist information, it then returns the songs
+# that are compatible between multiple users
+# =============================================
+
 from logging import error
 import requests
 import re 
@@ -16,7 +25,18 @@ Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
 
 #FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
 
+
+
+
 def create_playlist_on_spotify(name, public,USER_PROFILE):
+    '''
+    Create a playlist on associated spotify account.
+
+    :param p1: The name of the playlist 
+    :param p2: the User profile to create the playlist on.
+
+    :return: returns the JSON response to the request
+    '''
     token_info = application.getToken()
     ACCESS_TOKEN = token_info['access_token']
     response = requests.post(
@@ -36,6 +56,14 @@ def create_playlist_on_spotify(name, public,USER_PROFILE):
 
 
 def get_spotify_uri(artist,song):
+    '''
+    Get the spotify uri associated with a song.
+
+    :param p1: The artist of the song
+    :param p2: the name of the song
+
+    :return: returns the spotify uri associated with the song.
+    '''    
 
     query = urllib.parse.quote(f"{artist} {song}")
     url = f"https://api.spotify.com/v1/search?q={query}&type=track"
@@ -62,6 +90,14 @@ def get_spotify_uri(artist,song):
 
 
 def add_song_to_playlist(playlist_id, song_uri):
+    '''
+    Add songs to a spotify playlist
+
+    :param p1: the playlist ID value used for interacting with API
+    :param p2: the specific song URI to find the song.
+
+    :return: returns True if the Spotify API was less than 400 (non error), False otherwise
+    '''
     token_info = application.getToken()
     ACCESS_TOKEN = token_info['access_token']
     query = urllib.parse.quote(f"spotify:track:{song_uri}")
@@ -84,6 +120,13 @@ def add_song_to_playlist(playlist_id, song_uri):
 
 
 def get_user_playlists(USER_ID):
+    '''
+    Get the first 20 user playlists
+
+    :param p1: The username of the spotify account that we will get playlists from
+
+    :return: returns the JSON response to the request
+    '''
     token_info = application.getToken()
     ACCESS_TOKEN = token_info['access_token']
     response = requests.get(
@@ -100,10 +143,14 @@ def get_user_playlists(USER_ID):
 
 
 def get_playlist_songs(playlist_urls,songcount):
-    
-    # need to make (songcount // 30) api calls to get all songs in playlist
-    #if songcount > 50:
-        #songcount = 50
+    '''
+    Get every song in a given playlist
+
+    :param p1: the uri to the playlist
+    :param p2: the amount of songs in said playlist
+
+    :return: returns a list of all the songs in the playlist
+    '''
     iterations = (songcount // 30) + 1 
     remainder = songcount % 30
     offset = 0
@@ -136,6 +183,14 @@ def get_playlist_songs(playlist_urls,songcount):
 
 songfreq = [{},{},{},{}]
 def retrieveUserSongs(USER_PROFILE,num):
+    '''
+    Get all the songs for every playlist a user might have
+
+    :param p1: The user profile name 
+    :param p2: The specific profile index in the form 
+
+    :return: returns a -1 if couldn't find the user id, 0 otherwise
+    '''
     playlists = get_user_playlists(USER_PROFILE)
     if playlists == {}:
         return -1
@@ -170,6 +225,14 @@ def retrieveUserSongs(USER_PROFILE,num):
     return 0
 
 def retrieveAllSongs(USER_PROFILES):
+    '''
+    Get every song for every profile
+
+    :param p1: the list of profiles put into the form.
+
+    :return: return "SUCCESS" is successful, and the invalid 
+    USER profile if not successful.
+    '''
 
     for i in range(len(USER_PROFILES)):
         errorcode = retrieveUserSongs(USER_PROFILES[i],i)
@@ -179,7 +242,16 @@ def retrieveAllSongs(USER_PROFILES):
 
 
 def main(USER_PROFILES, playlist_name):
-    
+    '''
+    Finds every user's top playlists and songs, and creates a playlist
+    with the most compatible songs between all users.
+
+    :param p1: the list of profiles put into the form.
+    :param p2: the name of the playlist to be created.
+
+    :return: return "SUCCESS" is successful, and the invalid 
+    USER profile if not successful.
+    '''    
     
     errorMessage = retrieveAllSongs(USER_PROFILES)
     if errorMessage != "SUCCESS":
@@ -200,7 +272,5 @@ def main(USER_PROFILES, playlist_name):
 
     return "SUCCESS"
         
-    
-
 if __name__ == '__main__':
     main()

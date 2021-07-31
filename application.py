@@ -1,3 +1,12 @@
+# =============================================
+# File Name: application.py
+# Author: Benjamin Miller
+# 
+# This file is used to build the web application 
+# for the spotify compatibility app. 
+# All appropriate routing can be found in here.
+#
+# =============================================
 from flask import Flask, request, render_template, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 import requests
@@ -31,9 +40,12 @@ CUR_TOKEN = ""
 
 @app.route("/", methods=["GET"])
 def index():
+    '''
+    Main page for Spotify Compatibility App.
+
+    :return: render template for main page
+    '''
     
-
-
     try:
         token_info = getToken()
     except:
@@ -46,6 +58,12 @@ def index():
 
 
 def getToken():
+    '''
+    Gets a token from the spotify API, if the token has expired, gets
+    a refresh token.
+
+    :return: the token info
+    '''    
     token_info = session.get(TOKEN_INFO,None)
     if token_info == None:
         raise "exception"
@@ -57,27 +75,6 @@ def getToken():
         token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
     return token_info
 
-
-def callAuthorizationApi(url,code,path, client):
-    response = requests.post(
-        url,
-        headers={
-            "Authorization":client
-        },
-        json={
-            "grant_type":"authorization_code",
-            "code": code,
-            "redirect_uri":path
-        }
-    )
-    json_resp = response.json()
-    print(json_resp)
-
-
-@app.route("/loading", methods=["POST","GET"])
-def loadingScreen():
-    return render_template('processingPlaylists.html', form_data=request.form)
-
 @app.route("/reqAccess")
 def requestAccess():
     sp_oauth = create_spotify_oauth()
@@ -86,6 +83,11 @@ def requestAccess():
 
 @app.route('/authorize')
 def authorize():
+    '''
+    Retrieves the spotify API access token.
+
+    :return: redirect to main page
+    '''    
     sp_oauth = create_spotify_oauth()
     session.clear()
     code = request.args.get('code')
@@ -96,12 +98,23 @@ def authorize():
 
 @app.route("/errorHandler")
 def errorHandler():
+    '''
+    This gets called called when the user does not put in a playlist name
 
+    :return: returns erroroutput page
+    '''    
     return render_template('erroroutput.html')
 
 
 @app.route('/process', methods=["POST","GET"])
 def processing():
+    '''
+    This is called when the user hits the "SUBMIT" button on the main page.
+    It kicks off findCompatibleSongs.py and presents a loading screen while doing
+    so. It returns a results page when finished
+
+    :return: the results page
+    '''    
     if request.method == "POST":
         playlist_url = request.form
         profiles = []
@@ -145,12 +158,22 @@ def processing():
 
 @app.route("/wrongProfile")
 def wrongProfile(errorProfile):
-    
+    '''
+    Called when user inputs a profile that cannot be found within the spotify API
+
+    :return: wrongProfile page
+    '''    
     return render_template('wrongProfile.html')
 
 
 
 def create_spotify_oauth():
+    '''
+    Creates an outh2 instance from the spotifyOAuth library which
+    is used to obtain/refresh tokens
+
+    :return: returns an oauth2 instance
+    '''    
     return oauth2.SpotifyOAuth(
         client_id=clientID,
         client_secret=clientSecret,
