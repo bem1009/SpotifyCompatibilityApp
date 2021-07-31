@@ -4,6 +4,8 @@ var submitButton = document.getElementById("passDataToScript");
 
 var textBoxIDs = ["fname1"];
 
+var form = document.getElementById("buttons")
+
 const AUTHORIZE = "https://accounts.spotify.com/authorize"
 
 var redirect_uri = "http://127.0.0.1:5000/"
@@ -15,6 +17,11 @@ authButton.onclick = function requestAccess(){
     location.href = currentLocation + "/reqAccess"
 
 }
+
+function checkTextField(field) {
+    document.getElementById("error").innerText =
+      (field.value === "") ? "Field is empty." : "Field is filled.";
+  }
 
 
 submitButton.onclick = function processData(){
@@ -45,7 +52,7 @@ addProfileButton.onclick = function addTextBoxes(){
     textBoxIDs.push(element.id)
     //Create Labels
     var label = document.createElement("Label");
-    label.innerHTML = "User-ID: ";   
+    label.innerHTML = "Username: ";   
 
     // 'foobar' is the div id, where new fields are to be added
     var foo = document.getElementById("inputProfiles");

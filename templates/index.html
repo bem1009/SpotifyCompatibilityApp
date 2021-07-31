@@ -9,26 +9,48 @@
     </header>
     <body>
         <div id="content" >
-            
-            
+                    
             <h1>Spotify Compatibility App</h1>
-            <p>Welcome to the Spotify Compatibility App! To get started, enter your username in the textbox below</p>
-        
+            <h4>Welcome to the Spotify Compatibility App! To get started, enter the profile names of you and up to 3 friends in the textbox below</h4>
+
             <form id = "buttons" action="{{ url_for('processing') }}" method="POST">
+                <section id = "playlistName">
+
+                    <div id = "Auth">
+                        <input type="button" id="Authorization" value="Request Authorization">
+                        <b id = "questionMark">? 
+                            <span class="extra">In order to create your playlist, we need your permission to create
+                                a public playlist under your spotify account. Press the "Request Authorization" button
+                                to get started.
+                            </span>
+                        </b>
+                        <br>
+                        <br>
+                    </div>
+                   
+                    <label for="PlaylistName">New Playlist Name:</label>
+                    <input type="text" id="Playlist_Input" name="PlaylistName" onblur="checkTextField(this);" > <b id="error"></b>
+                    
+                    
+                
+                    
+                </section>
+
                 <section id = "inputProfiles">
                     <p>
-                        <label for="fname">User-ID:</label>
+                        <label for="fname">Username:</label>
                         <input type="text" id="fname1" name="fname">
-                        <input type="button" id="Authorization" value="Request Authorization" onclick="requestAuthorization()">
+                        
                     </p>
 
                 </section>
+                <div id = "inputButtons">
+                    <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes();">
                 
+                    <input type="submit"  id="passDataToScript" value="Create New Playlist"  >
 
-                <input type="button" id="addProfiles" value="Add Account" onclick="addTextBoxes();">
-                <!-- Change the below input type from "button" to "submit" once done testing -->
+                </div>
                 
-                <input type="submit"  id="passDataToScript" value="Submit" >
         
             </form>
 
@@ -45,6 +67,6 @@
         <!-- Keep script at the end so that everything else gets rendered before the script runs   -->
     </body>
     <script type="text/javascript" src="{{ url_for('static', filename = 'index.js') }}"></script>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/loadingPage.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
     
 </html>

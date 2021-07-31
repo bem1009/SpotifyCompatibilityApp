@@ -1,3 +1,4 @@
+from logging import error
 import requests
 import re 
 import json
@@ -92,6 +93,8 @@ def get_user_playlists(USER_ID):
         }
         
     )
+    if response.status_code == 404:
+        return {}
     json_resp = response.json()
     return json_resp
 
@@ -134,6 +137,8 @@ def get_playlist_songs(playlist_urls,songcount):
 songfreq = [{},{},{},{}]
 def retrieveUserSongs(USER_PROFILE,num):
     playlists = get_user_playlists(USER_PROFILE)
+    if playlists == {}:
+        return -1
 
     items = playlists["items"]
     playlist_urls = []
@@ -162,18 +167,23 @@ def retrieveUserSongs(USER_PROFILE,num):
             songfreq[num][songs[j]] = 1
             
     print(len(songs))
+    return 0
 
 def retrieveAllSongs(USER_PROFILES):
 
     for i in range(len(USER_PROFILES)):
-        retrieveUserSongs(USER_PROFILES[i],i)
-    return songfreq
+        errorcode = retrieveUserSongs(USER_PROFILES[i],i)
+        if errorcode == -1:
+            return USER_PROFILES[i]
+    return "SUCCESS"
 
 
-def main(USER_PROFILES):
+def main(USER_PROFILES, playlist_name):
     
     
-    songfreq = retrieveAllSongs(USER_PROFILES)
+    errorMessage = retrieveAllSongs(USER_PROFILES)
+    if errorMessage != "SUCCESS":
+        return errorMessage 
     crossedSongs = []
     for key in songfreq[0]:
         if key in songfreq[1] or key in songfreq[2] or key in songfreq[3]:
@@ -183,12 +193,12 @@ def main(USER_PROFILES):
     #find all the URIs for all the cross-referenced songs you found 
     if len(crossedSongs) != 0:
         uris = []
-        playlist_identifier = create_playlist_on_spotify("New Playlist!",False,USER_PROFILES[0])
+        playlist_identifier = create_playlist_on_spotify(playlist_name,False,USER_PROFILES[0])
         for i in range(len(crossedSongs)):
             uris = get_spotify_uri(crossedSongs[i][0], crossedSongs[i][1]) 
             add_song_to_playlist(playlist_identifier,uris)
 
-    return len(crossedSongs)
+    return "SUCCESS"
         
     
 

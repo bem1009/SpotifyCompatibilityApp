@@ -1,0 +1,106 @@
+
+
+span{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    
+
+}
+
+label{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding-left: 10px;
+}
+
+h1{
+    padding-left: 10px;
+    color:lightgreen; 
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h4{
+    padding-left: 10px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+#questionMark{
+    font-size: 26px;
+    position:relative;
+    top: 4px;
+    cursor: pointer;
+    
+}
+
+.extra{
+    padding:2px;
+    position: relative;
+    bottom: 20px;
+    display:none;
+    font-size: 13px;
+    background-color: white;
+    color: black;
+}
+
+b:hover .extra{
+    display: inline-block;
+}
+
+
+#content{
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    height:100%;
+    width:100%;
+    background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/05/Black-Music-HD-Wallpapers.png");
+    background-color: black;
+    color: white;
+    background-size: cover;
+}
+
+#Auth{
+    padding-left: 10px;
+    
+}
+
+#Authorization{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+
+}
+
+#inputButtons{
+    display: inline-block;
+    padding: 2 5px;
+    padding-left: 10px;
+}
+
+#addProfiles{
+
+    
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+}
+
+#passDataToScript{
+
+    
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+}
+
+p{
+    position:relative;
+    padding: 5px;
+    padding-left: 55px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#slow_warning{
+    margin: auto;
+    width: 50%;
+}
+

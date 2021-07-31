@@ -6,15 +6,16 @@ from secrets import *
 import spotipy
 from spotipy import oauth2
 import time
+import re
 
 #get the secretClientID from a local path
 import keys
-clientSecret = keys.main()
+clientSecret = keys.main()[0]
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SESSION_COOKIE_NAME'] = 'CUR_COOKIE'
-app.secret_key = "VsYB4ogop2"
+app.secret_key = keys.main()[1]
 db = SQLAlchemy(app)
 
 spot_redirect_uri = "http://127.0.0.1:5000/"
@@ -30,11 +31,14 @@ CUR_TOKEN = ""
 
 @app.route("/", methods=["GET"])
 def index():
+    
+
 
     try:
         token_info = getToken()
     except:
         print("User not logged in")
+        return redirect(url_for('authorize', _external=True))
 
     sp = spotipy.Spotify(auth=token_info['access_token'])
 
@@ -53,8 +57,6 @@ def getToken():
         token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
     return token_info
 
-
-    
 
 def callAuthorizationApi(url,code,path, client):
     response = requests.post(
@@ -92,20 +94,59 @@ def authorize():
     print(url_for('index'))
     return redirect(url_for('index', _external=True))   
 
+@app.route("/errorHandler")
+def errorHandler():
+
+    return render_template('erroroutput.html')
+
+
 @app.route('/process', methods=["POST","GET"])
 def processing():
     if request.method == "POST":
         playlist_url = request.form
         profiles = []
-        for value in playlist_url.values():
-            value = "https://api.spotify.com/v1/users/" + value + "/playlists?limit=20"
-            profiles.append(value)
+        playlist_name = ""
+        #handle redirect for bad inputs
 
-        matchedSongs = findCompatibleSongs.main(profiles)
+        if playlist_url["PlaylistName"] == "":
+            return redirect(url_for("errorHandler",_external=True))
 
-        print(matchedSongs)
+
+        for key,value in playlist_url.items():
+            if key == "PlaylistName":
+                playlist_name = value
+            else:
+                value = "https://api.spotify.com/v1/users/" + value + "/playlists?limit=20"
+                profiles.append(value)
+                print(value)
+                print(key)
+
+        print(profiles)
+
+        successOrFail = findCompatibleSongs.main(profiles,playlist_name)
+        if successOrFail != "SUCCESS":
+            #remove the prefix and suffix from the string to just get profile name
+            prefix = "https://api.spotify.com/v1/users/"
+            suffix = "/playlists?limit=20"
+            if successOrFail.startswith(prefix):
+                successOrFail = successOrFail[len(prefix):]
+            
+            if successOrFail.endswith(suffix):
+                successOrFail = successOrFail[:-len(suffix)]
+            
+            
+            print(successOrFail)
+            return render_template("wrongProfile.html", errorProfile = successOrFail)
+
+        #print(matchedSongs)
 
     return render_template('results.html')
+
+
+@app.route("/wrongProfile")
+def wrongProfile(errorProfile):
+    
+    return render_template('wrongProfile.html')
 
 
 
