@@ -21,13 +21,11 @@ import re
 import keys
 clientSecret = keys.main()[0]
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-app.config['SESSION_COOKIE_NAME'] = 'CUR_COOKIE'
-app.secret_key = keys.main()[1]
-db = SQLAlchemy(app)
-
-spot_redirect_uri = "http://127.0.0.1:5000/"
+application = Flask(__name__)
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+application.config['SESSION_COOKIE_NAME'] = 'CUR_COOKIE'
+application.secret_key = keys.main()[1]
+db = SQLAlchemy(application)
 
 
 AUTHORIZE = "https://accounts.spotify.com/authorize"
@@ -38,7 +36,7 @@ TOKEN_INFO="token_info"
 
 CUR_TOKEN = ""
 
-@app.route("/", methods=["GET"])
+@application.route("/", methods=["GET"])
 def index():
     '''
     Main page for Spotify Compatibility App.
@@ -75,13 +73,13 @@ def getToken():
         token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
     return token_info
 
-@app.route("/reqAccess")
+@application.route("/reqAccess")
 def requestAccess():
     sp_oauth = create_spotify_oauth()
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
-@app.route('/authorize')
+@application.route('/authorize')
 def authorize():
     '''
     Retrieves the spotify API access token.
@@ -95,7 +93,7 @@ def authorize():
     session[TOKEN_INFO] = token_info
     return redirect(url_for('index', _external=True))   
 
-@app.route("/errorHandler")
+@application.route("/errorHandler")
 def errorHandler():
     '''
     This gets called called when the user does not put in a playlist name
@@ -105,7 +103,7 @@ def errorHandler():
     return render_template('erroroutput.html')
 
 
-@app.route('/process', methods=["POST","GET"])
+@application.route('/process', methods=["POST","GET"])
 def processing():
     '''
     This is called when the user hits the "SUBMIT" button on the main page.
@@ -132,7 +130,7 @@ def processing():
                 profiles.append(value)
 
         successOrFail = findCompatibleSongs.main(profiles,playlist_name)
-        if successOrFail != "SUCCESS":
+        if successOrFail != "SUCCESS" or successOrFail != "":
             #remove the prefix and suffix from the string to just get profile name
             prefix = "https://api.spotify.com/v1/users/"
             suffix = "/playlists?limit=20"
@@ -141,13 +139,15 @@ def processing():
             
             if successOrFail.endswith(suffix):
                 successOrFail = successOrFail[:-len(suffix)]
+
+            
             
             return render_template("wrongProfile.html", errorProfile = successOrFail)
 
     return render_template('results.html')
 
 
-@app.route("/wrongProfile")
+@application.route("/wrongProfile")
 def wrongProfile(errorProfile):
     '''
     Called when user inputs a profile that cannot be found within the spotify API
@@ -171,6 +171,9 @@ def create_spotify_oauth():
         redirect_uri="http://127.0.0.1:5000/authorize",
         scope="playlist-modify-public playlist-modify-private"
     )
+
+if __name__ == "__main__":
+    application.run()
 
 
 
