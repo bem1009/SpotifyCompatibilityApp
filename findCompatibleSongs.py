@@ -16,18 +16,6 @@ import application
 
 from requests.api import request
 
-USER_IDS = ["https://api.spotify.com/v1/users/bmiller1550/playlists?limit=20", "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=20",
-            "https://api.spotify.com/v1/users/21o5gb3zdgw7grpnlha7sfu5y/playlists?limit=15&offset=20", "https://api.spotify.com/v1/users/tlounsy/playlists?limit=20"]
-
-Profile = "https://api.spotify.com/v1/users/bmiller1550/playlists"
-#ACCESS_TOKEN = "BQAkASC8p-1g8TfLz6R5M73UhNx4f9hV-8B_qQTh8Lb0GXcl1Soc_g___4cav6W-aMWZzHhOkm3bSP-Ux_aUSaFfGh2ZeQYktIUnlBlEkzvalvWsE6F9Y72_crGCRAfIEbNR22VjUZ-PnE8_7mk5MS2UXAhAFgvNb7gCczQxJTYhm9CYydE85856lwpUeseKPfXuLChzpwo347g1wRmb16dYjqo"
-
-
-#FIXES - For some reason the "New Music Friday" Does not work. Every other playlist I've tried works 
-
-
-
-
 def create_playlist_on_spotify(name, public,USER_PROFILE):
     '''
     Create a playlist on associated spotify account.
@@ -40,7 +28,7 @@ def create_playlist_on_spotify(name, public,USER_PROFILE):
     token_info = application.getToken()
     ACCESS_TOKEN = token_info['access_token']
     response = requests.post(
-        Profile,
+        USER_PROFILE,
         headers={
             "Authorization": f"Bearer {ACCESS_TOKEN}" 
         },

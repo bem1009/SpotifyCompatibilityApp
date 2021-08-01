@@ -130,18 +130,19 @@ def processing():
                 profiles.append(value)
 
         successOrFail = findCompatibleSongs.main(profiles,playlist_name)
-        if successOrFail != "SUCCESS" or successOrFail != "":
-            #remove the prefix and suffix from the string to just get profile name
-            prefix = "https://api.spotify.com/v1/users/"
-            suffix = "/playlists?limit=20"
-            if successOrFail.startswith(prefix):
-                successOrFail = successOrFail[len(prefix):]
-            
-            if successOrFail.endswith(suffix):
-                successOrFail = successOrFail[:-len(suffix)]
 
+        #remove the prefix and suffix from the string to just get profile name
+        prefix = "https://api.spotify.com/v1/users/"
+        suffix = "/playlists?limit=20"
+        if successOrFail.startswith(prefix):
+            successOrFail = successOrFail[len(prefix):]
             
-            
+        if successOrFail.endswith(suffix):
+            successOrFail = successOrFail[:-len(suffix)]
+
+        print(successOrFail)
+
+        if successOrFail != "SUCCESS" and successOrFail != "":
             return render_template("wrongProfile.html", errorProfile = successOrFail)
 
     return render_template('results.html')
